@@ -85,8 +85,8 @@ class ShapeKeyRenameUEtoARKit(bpy.types.Operator):
         converted_keys = []
         for shape_key in shape_keys:
             if shape_key.name in shapekeyTranslator:
-                shape_key.name = shapekeyTranslator[shape_key.name]
                 converted_keys.append(shape_key.name)
+                shape_key.name = shapekeyTranslator[shape_key.name]
         
         # check if all shape keys were found
         # maybe consider referring to shape keys as something other than just "keys"
@@ -98,8 +98,8 @@ class ShapeKeyRenameUEtoARKit(bpy.types.Operator):
             self.report({'INFO'}, "Converted all 52 shape keys!")     
             
         else:
-            missing_keys = [key for key in shapekeyTranslator.values() if key not in converted_keys]
-            self.report({'WARNING'}, f"Only {len(converted_keys)} out of 52 ARKit-compatible shape keys were found!\nMissing: {missing_keys}")
+            missing_keys = [key for key in shapekeyTranslator.keys() if key not in converted_keys]
+            self.report({'WARNING'}, f"Only {len(converted_keys)} out of 52 ARKit-compatible shape keys were found!\nMissing UE shape keys: {', '.join(missing_keys)}")
 
         return {'FINISHED'}
 

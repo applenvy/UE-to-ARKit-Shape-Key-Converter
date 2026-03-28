@@ -6,7 +6,7 @@ bl_info = {
     "description": "Translates shape keys from the Unified Expressions standard to the Apple ARKit standard",
     "location": "Object > Convert UE to ARKit",
     "blender": (3, 0, 0),
-    "version": (1, 0, 1),
+    "version": (1, 0, 2),
     "doc_url": "https://github.com/applenvy/UE-to-ARKit-Shape-Key-Converter",
     "category": "Object",
 }

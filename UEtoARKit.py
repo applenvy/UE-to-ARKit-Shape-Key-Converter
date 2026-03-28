@@ -7,7 +7,7 @@ bl_info = {
     "location": "Object > Convert UE to ARKit",
     "blender": (3, 0, 0),
     "version": (1, 0, 1),
-    "wiki_url": "https://github.com/applenvy/UE-to-ARKit-Shape-Key-Converter",
+    "doc_url": "https://github.com/applenvy/UE-to-ARKit-Shape-Key-Converter",
     "category": "Object",
 }
 

@@ -6,8 +6,8 @@ bl_info = {
     "description": "Translates shape keys from the Unified Expressions standard to the Apple ARKit standard",
     "location": "Object > Convert UE to ARKit",
     "blender": (3, 0, 0),
-    "version": (1, 0),
-    "wiki_url": "",
+    "version": (1, 0, 1),
+    "wiki_url": "https://github.com/applenvy/UE-to-ARKit-Shape-Key-Converter",
     "category": "Object",
 }
 
@@ -77,19 +77,34 @@ class ShapeKeyRenameUEtoARKit(bpy.types.Operator):
         obj = context.active_object
         
         try:
-            shapekeys = obj.data.shape_keys.key_blocks
+            shape_keys = obj.data.shape_keys.key_blocks
         except AttributeError:
-            # no shape keys
-            return {'ERROR'}
+            self.report({'ERROR'}, "No shape keys found on mesh!")
+            return {'CANCELLED'}
         
-        for shapekey in shapekeys:
-            if shapekey.name in shapekeyTranslator:
-                shapekey.name = shapekeyTranslator[shapekey.name]
+        converted_keys = []
+        for shape_key in shape_keys:
+            if shape_key.name in shapekeyTranslator:
+                shape_key.name = shapekeyTranslator[shape_key.name]
+                converted_keys.append(shape_key.name)
         
-        print("Shape keys converted!")
+        # check if all shape keys were found
+        # maybe consider referring to shape keys as something other than just "keys"
+        # to avoid confusion with dictionary keys
+        if len(converted_keys) == 0:
+            self.report({'ERROR'}, "No UE-compatible shape keys were found!")
+            
+        elif len(converted_keys) == 52:
+            self.report({'INFO'}, "Converted all 52 shape keys!")     
+            
+        else:
+            missing_keys = [key for key in shapekeyTranslator.values() if key not in converted_keys]
+            self.report({'WARNING'}, f"Only {len(converted_keys)} out of 52 ARKit-compatible shape keys were found!\nMissing: {missing_keys}")
+
         return {'FINISHED'}
-    
-def menu_func(self,context):
+
+
+def menu_func(self, context):
     self.layout.operator(ShapeKeyRenameUEtoARKit.bl_idname)
     
 def register():
